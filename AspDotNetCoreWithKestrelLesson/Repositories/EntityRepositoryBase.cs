@@ -22,7 +22,7 @@ namespace AspDotNetCoreWithKestrelLesson.Repositories
 			return result.Entity;
 		}
 
-		public async Task<T> Get(uint id) => await _dbContext.FindAsync<T>(id);
+		public async Task<T> Get(int id) => await _dbContext.FindAsync<T>(id);
 
 		public async Task<IEnumerable<T>> Get() => _dbContext.Set<T>().AsEnumerable();
 

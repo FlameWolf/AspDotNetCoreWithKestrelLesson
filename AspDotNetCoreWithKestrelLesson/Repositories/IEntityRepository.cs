@@ -9,7 +9,7 @@ namespace AspDotNetCoreWithKestrelLesson.Repositories
 	{
 		public Task<T> Add(T model);
 
-		public Task<T> Get(uint id);
+		public Task<T> Get(int id);
 
 		public Task<IEnumerable<T>> Get();
 

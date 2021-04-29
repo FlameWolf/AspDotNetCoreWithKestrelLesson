@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Filters;
+﻿using AspDotNetCoreWithKestrelLesson.Attributes;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,20 @@ using System.Reflection;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
-	public class UserExample : IExamplesProvider<User>
+	public class RequestExample<T> : IExamplesProvider<T>
 	{
-		public User GetExamples() => new User(101, "TestUser", "test.user@server.net");
-	}
-
-	public class PostExample : IExamplesProvider<Post>
-	{
-		public Post GetExamples() => new Post(201, 101, "Test post");
-	}
-
-	public class CommentExample : IExamplesProvider<Comment>
-	{
-		public Comment GetExamples() => new Comment(301, 201, 101, "Test comment");
+		public T GetExamples()
+		{
+			var exampleAttribute = typeof(T).GetCustomAttribute<GenerateExampleAttribute>();
+			return (T)
+			(
+				Activator.CreateInstance
+				(
+					typeof(T),
+					exampleAttribute?.ExampleValues.ToArray()
+				)
+			);
+		}
 	}
 
 	public class PatchRequestExample<T> : IExamplesProvider<PatchRequest<T>>
@@ -27,22 +29,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 		{
 			return new PatchRequest<T>
 			(
-				(
-					Activator.CreateInstance
-					(
-						Assembly
-							.GetExecutingAssembly()
-							.GetExportedTypes()
-							.Where
-							(
-								x => x.IsAssignableTo(typeof(IExamplesProvider<T>))
-							)
-							.FirstOrDefault(),
-						Array.Empty<object>()
-					)
-					as IExamplesProvider<T>
-				)
-				.GetExamples()
+				new RequestExample<T>().GetExamples()
 			);
 		}
 	}

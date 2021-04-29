@@ -38,18 +38,13 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 			return (PropertyType)source.GetType().GetProperty(propertyName).GetValue(source);
 		}
 
-		private bool CheckNull(T response, uint id)
-		{
-			return false;
-		}
-
 		[Route("add")]
 		[HttpPost]
 		public async Task<IActionResult> Add([FromBody] T request)
 		{
 			try
 			{
-				var id = GetPropertyValue<uint>("Id", request);
+				var id = GetPropertyValue<int>("Id", request);
 				var response = await _repository.Get(id);
 				if (response != null)
 				{
@@ -65,7 +60,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 					routeTemplate.Replace
 					(
 						"{id}",
-						GetPropertyValue<uint>("Id", response).ToString()
+						GetPropertyValue<int>("Id", response).ToString()
 					),
 					response
 				);
@@ -78,7 +73,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 
 		[Route("get/{id}")]
 		[HttpGet]
-		public async Task<IActionResult> Get(uint id)
+		public async Task<IActionResult> Get(int id)
 		{
 			var response = await _repository.Get(id);
 			if (response == null)
@@ -108,7 +103,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 
 		[Route("update/{id}")]
 		[HttpPatch]
-		public async Task<IActionResult> Update(uint id, [FromBody] PatchRequest<T> request)
+		public async Task<IActionResult> Update(int id, [FromBody] PatchRequest<T> request)
 		{
 			var response = await _repository.Get(id);
 			if (response == null)
@@ -136,7 +131,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 
 		[Route("delete/{id}")]
 		[HttpDelete]
-		public async Task<IActionResult> Delete(uint id)
+		public async Task<IActionResult> Delete(int id)
 		{
 			var response = await _repository.Get(id);
 			if (response == null)

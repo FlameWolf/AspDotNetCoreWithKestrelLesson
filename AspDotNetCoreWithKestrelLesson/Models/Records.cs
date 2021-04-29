@@ -3,27 +3,30 @@
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
 	[GenerateController("api/user")]
+	[GenerateExample(101, "TestUser", "test.user@server.net")]
 	public record User
 	(
-		uint Id,
+		int Id,
 		string Handle,
 		string Email
 	);
 
 	[GenerateController("api/post")]
+	[GenerateExample(201, 101, "Test post")]
 	public record Post
 	(
-		uint Id,
-		uint UserId,
+		int Id,
+		int UserId,
 		string Content
 	);
 
 	[GenerateController("api/comment")]
+	[GenerateExample(301, 201, 101, "Test comment")]
 	public record Comment
 	(
-		uint Id,
-		uint PostId,
-		uint UserId,
+		int Id,
+		int PostId,
+		int UserId,
 		string Content
 	);
 
