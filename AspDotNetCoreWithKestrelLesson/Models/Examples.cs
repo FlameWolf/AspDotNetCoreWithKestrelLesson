@@ -11,15 +11,15 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 	{
 		public T GetExamples()
 		{
-			var exampleAttribute = typeof(T).GetCustomAttribute<GenerateExampleAttribute>();
-			return (T)
-			(
-				Activator.CreateInstance
+			var generateExampleAttribute = typeof(T).GetCustomAttribute<GenerateExampleAttribute>();
+			return
+				generateExampleAttribute == null ?
+				default(T) :
+				(T)Activator.CreateInstance
 				(
 					typeof(T),
-					exampleAttribute?.ExampleValues.ToArray()
-				)
-			);
+					generateExampleAttribute.ExampleValues.ToArray()
+				);
 		}
 	}
 

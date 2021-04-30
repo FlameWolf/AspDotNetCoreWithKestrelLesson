@@ -1,4 +1,5 @@
 ﻿using AspDotNetCoreWithKestrelLesson.Controllers;
+using AspDotNetCoreWithKestrelLesson.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Collections.Generic;
@@ -13,25 +14,18 @@ namespace AspDotNetCoreWithKestrelLesson.Providers
 
 		public void OnProvidersExecuting(ApplicationModelProviderContext context)
 		{
-			foreach
-			(
-				var controllerModel
-				in context.Result.Controllers
+			context
+				.Result
+				.Controllers
 				.Where
 				(
-					x =>
-					(
-						x.ControllerType.Name ==
-						typeof(EntityControllerBase<>).Name
-					)
+					x => x.ControllerType.IsGenericType &&
+						x.ControllerType.GetGenericTypeDefinition() == typeof(EntityControllerBase<>)
 				)
-			)
-			{
-				controllerModel.ControllerName = controllerModel
-					.ControllerType
-					.GenericTypeArguments[0]
-					.Name;
-			}
+				.ForEach
+				(
+					x => x.ControllerName = x.ControllerType.GenericTypeArguments.First().Name
+				);
 		}
 
 		public void OnProvidersExecuted(ApplicationModelProviderContext context)

@@ -1,5 +1,6 @@
 ﻿using AspDotNetCoreWithKestrelLesson.Attributes;
 using AspDotNetCoreWithKestrelLesson.Controllers;
+using AspDotNetCoreWithKestrelLesson.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
@@ -14,24 +15,20 @@ namespace AspDotNetCoreWithKestrelLesson.Providers
 	{
 		public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
 		{
-			var assembly = typeof(EntityControllerFeatureProvider).Assembly;
-			var candidates = assembly
+			typeof(EntityControllerFeatureProvider)
+				.Assembly
 				.GetExportedTypes()
 				.Where
 				(
-					x => x.GetCustomAttributes(true)
-					.Any
+					x => x.GetCustomAttribute<GenerateControllerAttribute>() != null
+				)
+				.ForEach
+				(
+					x => feature.Controllers.Add
 					(
-						x => x is GenerateControllerAttribute
+						typeof(EntityControllerBase<>).MakeGenericType(x).GetTypeInfo()
 					)
 				);
-			foreach (var candidate in candidates)
-			{
-				feature.Controllers.Add
-				(
-					typeof(EntityControllerBase<>).MakeGenericType(candidate).GetTypeInfo()
-				);
-			}
 		}
 	}
 }
