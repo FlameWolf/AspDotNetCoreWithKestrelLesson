@@ -56,7 +56,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 			);
 		}
 
-		private JObject GetInstanceAsJObject<TSource>(params object[] args)
+		private JObject GetInstanceAsJObject<TSource>()
 		{
 			var constructor = typeof(TSource)
 				.GetConstructors
@@ -67,9 +67,9 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 			var parameters = constructor?.GetParameters();
 			return ConvertToJObject
 			(
-				constructor.Invoke
+				constructor?.Invoke
 				(
-					parameters.Select
+					parameters?.Select
 					(
 						x => x.HasDefaultValue ?
 							x.DefaultValue :
