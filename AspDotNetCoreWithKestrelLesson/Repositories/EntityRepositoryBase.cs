@@ -1,5 +1,4 @@
 ﻿using AspDotNetCoreWithKestrelLesson.Database;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace AspDotNetCoreWithKestrelLesson.Repositories
 
 		public async Task<T> Add(T model)
 		{
-			var result = await _dbContext.AddAsync<T>(model);
+			var result = await _dbContext.AddAsync(model);
 			await _dbContext.SaveChangesAsync();
 			return result.Entity;
 		}
@@ -28,14 +27,14 @@ namespace AspDotNetCoreWithKestrelLesson.Repositories
 
 		public async Task<T> Update(T model)
 		{
-			var result = _dbContext.Update<T>(model);
+			var result = _dbContext.Update(model);
 			await _dbContext.SaveChangesAsync();
 			return result.Entity;
 		}
 
 		public async Task<T> Delete(T model)
 		{
-			var result = _dbContext.Remove<T>(model);
+			var result = _dbContext.Remove(model);
 			await _dbContext.SaveChangesAsync();
 			return result.Entity;
 		}

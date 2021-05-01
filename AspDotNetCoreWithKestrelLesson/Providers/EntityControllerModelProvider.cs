@@ -1,10 +1,7 @@
 ﻿using AspDotNetCoreWithKestrelLesson.Controllers;
 using AspDotNetCoreWithKestrelLesson.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AspDotNetCoreWithKestrelLesson.Providers
 {
@@ -20,11 +17,15 @@ namespace AspDotNetCoreWithKestrelLesson.Providers
 				.Where
 				(
 					x => x.ControllerType.IsGenericType &&
-						x.ControllerType.GetGenericTypeDefinition() == typeof(EntityControllerBase<>)
+						(
+							x.ControllerType.GetGenericTypeDefinition() ==
+							typeof(EntityControllerBase<>)
+						)
 				)
 				.ForEach
 				(
-					x => x.ControllerName = x.ControllerType.GenericTypeArguments.First().Name
+					x =>
+					x.ControllerName = x.ControllerType.GenericTypeArguments.First().Name
 				);
 		}
 

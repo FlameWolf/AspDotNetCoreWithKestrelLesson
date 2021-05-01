@@ -1,8 +1,6 @@
 ﻿using AspDotNetCoreWithKestrelLesson.Attributes;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
@@ -14,7 +12,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 			var generateExampleAttribute = typeof(T).GetCustomAttribute<GenerateExampleAttribute>();
 			return
 				generateExampleAttribute == null ?
-				default(T) :
+				default :
 				(T)Activator.CreateInstance
 				(
 					typeof(T),

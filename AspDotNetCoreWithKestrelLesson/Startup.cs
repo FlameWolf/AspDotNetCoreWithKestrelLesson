@@ -6,7 +6,6 @@ using AspDotNetCoreWithKestrelLesson.Providers;
 using AspDotNetCoreWithKestrelLesson.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -19,11 +18,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IO;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace AspDotNetCoreWithKestrelLesson
 {

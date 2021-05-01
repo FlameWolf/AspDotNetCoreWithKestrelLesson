@@ -5,10 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +33,19 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 		protected PropertyType GetPropertyValue<PropertyType>(string propertyName, object source)
 		{
 			return (PropertyType)source.GetType().GetProperty(propertyName).GetValue(source);
+		}
+
+		protected async Task<IActionResult> Find(int id, Func<object, Task<IActionResult>> action)
+		{
+			var response = await _repository.Get(id);
+			if (response == null)
+			{
+				return NotFound
+				(
+					$"Unable to find a {typeof(T).Name.ToCamel()} with the specified ID ({id})"
+				);
+			}
+			return await action(response);
 		}
 
 		[Route("add")]
@@ -75,15 +85,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get(int id)
 		{
-			var response = await _repository.Get(id);
-			if (response == null)
-			{
-				return NotFound
-				(
-					$"Unable to find a {typeof(T).Name.ToCamel()} with the specified ID ({id})"
-				);
-			}
-			return Ok(response);
+			return await Find(id, async response => Ok(response));
 		}
 
 		[Route("get")]
@@ -105,44 +107,33 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 		[HttpPatch]
 		public async Task<IActionResult> Update(int id, [FromBody] PatchRequest<T> request)
 		{
-			var response = await _repository.Get(id);
-			if (response == null)
+			return await Find(id, async response =>
 			{
-				return NotFound
-				(
-					$"Unable to find a {typeof(T).Name.ToCamel()} with the specified ID ({id})"
-				);
-			}
-			((JsonPatchDocument)request).ApplyTo(response, error =>
-			{
-				ModelState.AddModelError
-				(
-					error.AffectedObject.GetType().Name,
-					error.ErrorMessage
-				);
+				((JsonPatchDocument)request).ApplyTo(response, error =>
+				{
+					ModelState.AddModelError
+					(
+						error.AffectedObject.GetType().Name,
+						error.ErrorMessage
+					);
+				});
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				return Ok(await _repository.Update((T)response));
 			});
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			response = await _repository.Update(response);
-			return Ok(response);
 		}
 
 		[Route("delete/{id}")]
 		[HttpDelete]
 		public async Task<IActionResult> Delete(int id)
 		{
-			var response = await _repository.Get(id);
-			if (response == null)
-			{
-				return NotFound
-				(
-					$"Unable to find a {typeof(T).Name.ToCamel()} with the specified ID ({id})"
-				);
-			}
-			response = await _repository.Delete(response);
-			return Ok(response);
+			return await Find
+			(
+				id,
+				async response => Ok(await _repository.Delete((T)response))
+			);
 		}
 	}
 }

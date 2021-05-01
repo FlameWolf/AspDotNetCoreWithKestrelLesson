@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AspDotNetCoreWithKestrelLesson.Extensions
 {
 	public static class TypeExtensions
 	{
-		private static ConcurrentDictionary<Type, object> typeDefaults = new();
+		private static readonly ConcurrentDictionary<Type, object> typeDefaults = new();
 
 		public static object GetDefaultValue(this Type type) =>
 			type.IsValueType ?

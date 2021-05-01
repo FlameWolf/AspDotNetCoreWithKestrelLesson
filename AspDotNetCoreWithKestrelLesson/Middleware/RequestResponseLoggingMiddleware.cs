@@ -3,14 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspDotNetCoreWithKestrelLesson.Middleware
 {
-	// You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
 	public class RequestResponseLoggingMiddleware
 	{
 		private readonly RequestDelegate _next;
@@ -33,7 +30,7 @@ namespace AspDotNetCoreWithKestrelLesson.Middleware
 		{
 			const int bufferSize = 4096;
 			var readChunk = new char[bufferSize];
-			var readChunkSize = -1;
+			int readChunkSize;
 			using var writer = new StringWriter();
 			using var reader = new StreamReader(stream);
 			stream.Seek(0, SeekOrigin.Begin);

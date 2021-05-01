@@ -5,10 +5,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
@@ -44,7 +42,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 			return patchDocument;
 		}
 
-		private JObject ConvertToJObject(object source)
+		private static JObject ConvertToJObject(object source)
 		{
 			return JObject.FromObject
 			(
@@ -56,7 +54,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 			);
 		}
 
-		private JObject GetInstanceAsJObject<TSource>()
+		private static JObject GetInstanceAsJObject<TSource>()
 		{
 			var constructor = typeof(TSource)
 				.GetConstructors
