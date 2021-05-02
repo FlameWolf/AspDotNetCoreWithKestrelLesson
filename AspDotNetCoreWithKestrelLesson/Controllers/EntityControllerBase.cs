@@ -60,7 +60,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 				{
 					return Conflict
 					(
-						$"A {typeof(T).Name} with the specified ID ({id}) already exists"
+						$"A {typeof(T).Name.ToCamel()} with the specified ID ({id}) already exists"
 					);
 				}
 				response = await _repository.Add(request);
