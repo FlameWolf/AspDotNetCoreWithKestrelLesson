@@ -16,7 +16,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IO;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Linq;
 using System.Reflection;
@@ -52,7 +51,7 @@ namespace AspDotNetCoreWithKestrelLesson
 		{
 			services.AddDbContext<ApplicationDbContext>(context =>
 			{
-				context.UseInMemoryDatabase("AspDotNetCoreWithKestrelLessonDb");
+				context.UseInMemoryDatabase(nameof(ApplicationDbContext));
 			});
 			services.AddSingleton(typeof(RecyclableMemoryStreamManager));
 			services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepositoryBase<>));
@@ -73,15 +72,6 @@ namespace AspDotNetCoreWithKestrelLesson
 			.AddNewtonsoftJson();
 			services.AddSwaggerGen(config =>
 			{
-				config.SwaggerDoc
-				(
-					"v1",
-					new OpenApiInfo
-					{
-						Title = "AspDotNetCoreWithKestrelLesson",
-						Version = "v1"
-					}
-				);
 				config.ExampleFilters();
 			})
 			.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
@@ -94,14 +84,7 @@ namespace AspDotNetCoreWithKestrelLesson
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
-				app.UseSwaggerUI(options =>
-				{
-					options.SwaggerEndpoint
-					(
-						"/swagger/v1/swagger.json",
-						"AspDotNetCoreWithKestrelLesson v1"
-					);
-				});
+				app.UseSwaggerUI();
 			}
 			app.UseRequestResponseLogging();
 			app.UseRouting();
