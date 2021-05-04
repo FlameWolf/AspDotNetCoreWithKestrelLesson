@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-static IHostBuilder CreateHostBuilder(string[] args)
+IHostBuilder CreateHostBuilder(string[] args)
 {
 	return Host
 		.CreateDefaultBuilder(args)
