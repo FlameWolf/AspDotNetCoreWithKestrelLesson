@@ -5,7 +5,6 @@ using AspDotNetCoreWithKestrelLesson.Models;
 using AspDotNetCoreWithKestrelLesson.Providers;
 using AspDotNetCoreWithKestrelLesson.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -72,8 +71,6 @@ namespace AspDotNetCoreWithKestrelLesson
 						(
 							origin => new Uri(origin).IsLoopback
 						);
-						builder.AllowAnyHeader();
-						builder.AllowAnyMethod();
 					}
 				);
 			});
