@@ -5,6 +5,7 @@ using AspDotNetCoreWithKestrelLesson.Models;
 using AspDotNetCoreWithKestrelLesson.Providers;
 using AspDotNetCoreWithKestrelLesson.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IO;
 using Swashbuckle.AspNetCore.Filters;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -60,6 +62,21 @@ namespace AspDotNetCoreWithKestrelLesson
 			(
 				ServiceDescriptor.Transient<IApplicationModelProvider, EntityControllerModelProvider>()
 			);
+			services.AddCors(options =>
+			{
+				options.AddDefaultPolicy
+				(
+					builder =>
+					{
+						builder.SetIsOriginAllowed
+						(
+							origin => new Uri(origin).IsLoopback
+						);
+						builder.AllowAnyHeader();
+						builder.AllowAnyMethod();
+					}
+				);
+			});
 			services.AddControllers(options =>
 			{
 				options.Conventions.Add(new EntityControllerRouteConvention());
@@ -88,6 +105,7 @@ namespace AspDotNetCoreWithKestrelLesson
 			}
 			app.UseRequestResponseLogging();
 			app.UseRouting();
+			app.UseCors();
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
