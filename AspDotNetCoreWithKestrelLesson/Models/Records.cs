@@ -30,7 +30,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 		string Content
 	);
 
-	public partial record PatchRequest<TRequest>
+	public partial record PatchOperation<TRequest>
 	(
 		string Op,
 		string From,

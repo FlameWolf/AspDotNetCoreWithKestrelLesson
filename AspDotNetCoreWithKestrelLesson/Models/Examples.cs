@@ -26,9 +26,12 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 		public PatchRequest<T> GetExamples()
 		{
 			return new PatchRequest<T>
-			(
-				new RequestExample<T>().GetExamples()
-			);
+			{
+				new PatchOperation<T>
+				(
+					new RequestExample<T>().GetExamples()
+				)
+			};
 		}
 	}
 }

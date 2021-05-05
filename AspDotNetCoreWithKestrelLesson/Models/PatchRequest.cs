@@ -1,81 +1,66 @@
-﻿using AspDotNetCoreWithKestrelLesson.Extensions;
+﻿using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Linq;
-using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
-	public partial record PatchRequest<TRequest>
+	public class PatchRequest<T> : IList<PatchOperation<T>>
 	{
-		public PatchRequest() : this("test", string.Empty, string.Empty, string.Empty)
+		private readonly List<PatchOperation<T>> _requests;
+
+		public PatchRequest()
 		{
-			var requestAsJObject = GetInstanceAsJObject<TRequest>();
-			Path = requestAsJObject.Properties().FirstOrDefault().Name;
-			Value = requestAsJObject.Properties().FirstOrDefault().Value.ToString();
+			_requests = new();
 		}
 
-		public PatchRequest(TRequest request) : this()
+		PatchOperation<T> IList<PatchOperation<T>>.this[int index]
 		{
-			var requestAsJObject = ConvertToJObject(request);
-			Path = requestAsJObject.Properties().FirstOrDefault().Name;
-			Value = requestAsJObject.Properties().FirstOrDefault().Value.ToString();
+			set => _requests[index] = value;
+			get => _requests[index];
 		}
 
-		public static implicit operator JsonPatchDocument(PatchRequest<TRequest> request)
+		public int Count => _requests.Count;
+
+		public bool IsReadOnly => false;
+
+		public void Add(PatchOperation<T> item) => _requests.Add(item);
+
+		public void Clear() => _requests.Clear();
+
+		public bool Contains(PatchOperation<T> item) => _requests.Contains(item);
+
+		public void CopyTo(PatchOperation<T>[] array, int arrayIndex) => _requests.CopyTo(array, arrayIndex);
+
+		public int IndexOf(PatchOperation<T> item) => _requests.IndexOf(item);
+
+		public void Insert(int index, PatchOperation<T> item) => _requests.Insert(index, item);
+
+		public bool Remove(PatchOperation<T> item) => _requests.Remove(item);
+
+		public void RemoveAt(int index) => _requests.RemoveAt(index);
+
+		public IEnumerator<PatchOperation<T>> GetEnumerator() => _requests.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => _requests.GetEnumerator();
+
+		public static implicit operator JsonPatchDocument(PatchRequest<T> requests)
 		{
 			var patchDocument = new JsonPatchDocument();
-			patchDocument.Operations.Add
-			(
-				new Operation
-				{
-					op = request.Op,
-					from = request.From,
-					path = request.Path,
-					value = request.Value
-				}
-			);
+			foreach (var request in requests)
+			{
+				patchDocument.Operations.Add
+				(
+					new Operation
+					{
+						op = request.Op,
+						from = request.From,
+						path = request.Path,
+						value = request.Value
+					}
+				);
+			}
 			return patchDocument;
-		}
-
-		private static JObject ConvertToJObject(object source)
-		{
-			return JObject.FromObject
-			(
-				source,
-				new JsonSerializer
-				{
-					ContractResolver = new CamelCasePropertyNamesContractResolver()
-				}
-			);
-		}
-
-		private static JObject GetInstanceAsJObject<TSource>()
-		{
-			var constructor = typeof(TSource)
-				.GetConstructors
-				(
-					BindingFlags.Public | BindingFlags.Instance
-				)
-				.FirstOrDefault();
-			var parameters = constructor?.GetParameters();
-			return ConvertToJObject
-			(
-				constructor?.Invoke
-				(
-					parameters?.Select
-					(
-						x => x.HasDefaultValue ?
-							x.DefaultValue :
-							x.ParameterType.GetDefaultValue()
-					)
-					.ToArray()
-				)
-			);
 		}
 	}
 }
