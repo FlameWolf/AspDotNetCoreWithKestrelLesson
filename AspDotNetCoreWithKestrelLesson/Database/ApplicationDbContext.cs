@@ -1,6 +1,6 @@
-﻿using AspDotNetCoreWithKestrelLesson.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using AspDotNetCoreWithKestrelLesson.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace AspDotNetCoreWithKestrelLesson.Database
 {
@@ -17,6 +17,23 @@ namespace AspDotNetCoreWithKestrelLesson.Database
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			// Configure key fields.
+			modelBuilder.Entity<User>().HasKey(user => user.Id);
+			modelBuilder.Entity<Post>().HasKey(post => post.Id);
+			modelBuilder.Entity<Comment>().HasKey(comment => comment.Id);
+			// Configure data constraints.
+			modelBuilder.Entity<User>().Property(user => user.Handle).IsRequired(true);
+			modelBuilder.Entity<User>().Property(user => user.Email).IsRequired(true);
+			modelBuilder.Entity<Post>().Property(post => post.UserId).IsRequired(true);
+			modelBuilder.Entity<Post>().Property(post => post.Content).IsRequired(true);
+			modelBuilder.Entity<Comment>().Property(comment => comment.PostId).IsRequired(true);
+			modelBuilder.Entity<Comment>().Property(comment => comment.UserId).IsRequired(true);
+			modelBuilder.Entity<Comment>().Property(comment => comment.Content).IsRequired(true);
+			// Configure relationships.
+			modelBuilder.Entity<User>().HasMany(user => user.Posts).WithOne();
+			modelBuilder.Entity<User>().HasMany(user => user.Comments).WithOne();
+			modelBuilder.Entity<Post>().HasMany(post => post.Comments).WithOne();
+			// Seed data.
 			modelBuilder.Entity<User>().HasData
 			(
 				new User(101, "TestUSer1", "test.user1@server.net"),

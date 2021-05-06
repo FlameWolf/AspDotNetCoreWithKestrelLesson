@@ -1,8 +1,8 @@
-﻿using AspDotNetCoreWithKestrelLesson.Attributes;
+﻿using System.Reflection;
+using AspDotNetCoreWithKestrelLesson.Attributes;
 using AspDotNetCoreWithKestrelLesson.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System.Reflection;
 
 namespace AspDotNetCoreWithKestrelLesson.Conventions
 {

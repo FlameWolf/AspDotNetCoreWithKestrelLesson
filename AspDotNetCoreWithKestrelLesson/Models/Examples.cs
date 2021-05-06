@@ -1,7 +1,7 @@
-﻿using AspDotNetCoreWithKestrelLesson.Attributes;
-using Swashbuckle.AspNetCore.Filters;
-using System;
+﻿using System;
 using System.Reflection;
+using AspDotNetCoreWithKestrelLesson.Attributes;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {

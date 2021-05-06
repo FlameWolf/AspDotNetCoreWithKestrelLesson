@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using AspDotNetCoreWithKestrelLesson.Conventions;
 using AspDotNetCoreWithKestrelLesson.Database;
 using AspDotNetCoreWithKestrelLesson.Middleware;
@@ -9,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,9 +21,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IO;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Linq;
-using System.Reflection;
 
 namespace AspDotNetCoreWithKestrelLesson
 {
@@ -52,7 +53,12 @@ namespace AspDotNetCoreWithKestrelLesson
 		{
 			services.AddDbContext<ApplicationDbContext>(context =>
 			{
-				context.UseInMemoryDatabase(nameof(ApplicationDbContext));
+				var keepAliveConnection = new SqliteConnection
+				{
+					ConnectionString = _configuration.GetConnectionString("SqliteInMemory")
+				};
+				keepAliveConnection.Open();
+				context.UseSqlite(keepAliveConnection);
 			});
 			services.AddSingleton(typeof(RecyclableMemoryStreamManager));
 			services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepositoryBase<>));

@@ -1,7 +1,7 @@
-﻿using AspDotNetCoreWithKestrelLesson.Controllers;
+﻿using System.Linq;
+using AspDotNetCoreWithKestrelLesson.Controllers;
 using AspDotNetCoreWithKestrelLesson.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System.Linq;
 
 namespace AspDotNetCoreWithKestrelLesson.Providers
 {

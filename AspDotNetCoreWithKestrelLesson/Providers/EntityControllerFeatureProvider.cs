@@ -1,11 +1,11 @@
-﻿using AspDotNetCoreWithKestrelLesson.Attributes;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using AspDotNetCoreWithKestrelLesson.Attributes;
 using AspDotNetCoreWithKestrelLesson.Controllers;
 using AspDotNetCoreWithKestrelLesson.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace AspDotNetCoreWithKestrelLesson.Providers
 {

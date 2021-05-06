@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.JsonPatch.Operations;
-using Microsoft.AspNetCore.JsonPatch;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {

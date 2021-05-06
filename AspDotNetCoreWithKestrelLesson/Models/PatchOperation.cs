@@ -1,10 +1,10 @@
-﻿using AspDotNetCoreWithKestrelLesson.Extensions;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using AspDotNetCoreWithKestrelLesson.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Linq;
-using System.Reflection;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
