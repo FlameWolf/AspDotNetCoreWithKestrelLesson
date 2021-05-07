@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,12 +52,7 @@ namespace AspDotNetCoreWithKestrelLesson
 		{
 			services.AddDbContext<ApplicationDbContext>(context =>
 			{
-				var keepAliveConnection = new SqliteConnection
-				{
-					ConnectionString = _configuration.GetConnectionString("SqliteInMemory")
-				};
-				keepAliveConnection.Open();
-				context.UseSqlite(keepAliveConnection);
+				context.UseInMemoryDatabase(nameof(ApplicationDbContext));
 			});
 			services.AddSingleton(typeof(RecyclableMemoryStreamManager));
 			services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepositoryBase<>));
