@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using AspDotNetCoreWithKestrelLesson.Conventions;
 using AspDotNetCoreWithKestrelLesson.Database;
+using AspDotNetCoreWithKestrelLesson.Filters;
 using AspDotNetCoreWithKestrelLesson.Middleware;
 using AspDotNetCoreWithKestrelLesson.Models;
 using AspDotNetCoreWithKestrelLesson.Providers;
@@ -78,6 +79,7 @@ namespace AspDotNetCoreWithKestrelLesson
 			{
 				options.Conventions.Add(new EntityControllerRouteConvention());
 				options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+				options.Filters.Add<ExceptionFilter>();
 			})
 			.ConfigureApplicationPartManager(config =>
 			{
