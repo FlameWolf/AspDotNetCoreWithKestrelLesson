@@ -5,19 +5,13 @@ using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
-	public class PatchRequest<T> : IList<PatchOperation<T>>
+	public class PatchRequest<T> : ICollection<PatchOperation<T>>
 	{
 		private readonly List<PatchOperation<T>> _requests;
 
 		public PatchRequest()
 		{
 			_requests = new();
-		}
-
-		PatchOperation<T> IList<PatchOperation<T>>.this[int index]
-		{
-			set => _requests[index] = value;
-			get => _requests[index];
 		}
 
 		public int Count => _requests.Count;
@@ -32,13 +26,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 
 		public void CopyTo(PatchOperation<T>[] array, int arrayIndex) => _requests.CopyTo(array, arrayIndex);
 
-		public int IndexOf(PatchOperation<T> item) => _requests.IndexOf(item);
-
-		public void Insert(int index, PatchOperation<T> item) => _requests.Insert(index, item);
-
 		public bool Remove(PatchOperation<T> item) => _requests.Remove(item);
-
-		public void RemoveAt(int index) => _requests.RemoveAt(index);
 
 		public IEnumerator<PatchOperation<T>> GetEnumerator() => _requests.GetEnumerator();
 
