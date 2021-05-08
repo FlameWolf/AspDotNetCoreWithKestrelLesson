@@ -52,33 +52,26 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add([FromBody] T request)
 		{
-			try
+			var id = GetPropertyValue<int>("Id", request);
+			var response = await _repository.Get(id);
+			if (response != null)
 			{
-				var id = GetPropertyValue<int>("Id", request);
-				var response = await _repository.Get(id);
-				if (response != null)
-				{
-					return Conflict
-					(
-						$"A {typeof(T).Name.ToCamel()} with the specified ID ({id}) already exists"
-					);
-				}
-				response = await _repository.Add(request);
-				var routeTemplate = GetTemplateForAction(nameof(Get));
-				return Created
+				return Conflict
 				(
-					routeTemplate.Replace
-					(
-						"{id}",
-						GetPropertyValue<int>("Id", response).ToString()
-					),
-					response
+					$"A {typeof(T).Name.ToCamel()} with the specified ID ({id}) already exists"
 				);
 			}
-			catch
-			{
-				return BadRequest();
-			}
+			response = await _repository.Add(request);
+			var routeTemplate = GetTemplateForAction(nameof(Get));
+			return Created
+			(
+				routeTemplate.Replace
+				(
+					"{id}",
+					GetPropertyValue<int>("Id", response).ToString()
+				),
+				response
+			);
 		}
 
 		[Route("get/{id}")]
@@ -92,15 +85,8 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			try
-			{
-				var response = await _repository.Get();
-				return Ok(response);
-			}
-			catch
-			{
-				return NoContent();
-			}
+			var response = await _repository.Get();
+			return Ok(response);
 		}
 
 		[Route("update/{id}")]
