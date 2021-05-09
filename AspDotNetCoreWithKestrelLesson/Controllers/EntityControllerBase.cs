@@ -35,7 +35,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 			return (PropertyType)source.GetType().GetProperty(propertyName).GetValue(source);
 		}
 
-		protected async Task<IActionResult> Find(int id, Func<object, Task<IActionResult>> action)
+		protected async Task<IActionResult> Find(int id, Func<object, Task<IActionResult>> responseHandler)
 		{
 			var response = await _repository.Get(id);
 			if (response == null)
@@ -45,7 +45,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 					$"Unable to find a {typeof(T).Name.ToCamel()} with the specified ID ({id})"
 				);
 			}
-			return await action(response);
+			return await responseHandler(response);
 		}
 
 		[Route("add")]
