@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspDotNetCoreWithKestrelLesson.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspDotNetCoreWithKestrelLesson.Repositories
 {
 	public class EntityRepositoryBase<T> : IEntityRepository<T> where T : class
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly DbContext _dbContext;
 
-		public EntityRepositoryBase(ApplicationDbContext dbContext)
+		public EntityRepositoryBase(IServiceProvider serviceProvider)
 		{
-			_dbContext = dbContext;
+			_dbContext = serviceProvider.GetService<ApplicationDbContext>();
 		}
 
 		public async Task<T> Add(T model)
