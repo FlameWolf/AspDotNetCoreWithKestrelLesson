@@ -35,7 +35,7 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 			return (PropertyType)source.GetType().GetProperty(propertyName).GetValue(source);
 		}
 
-		protected async Task<IActionResult> Find(int id, Func<object, Task<IActionResult>> responseHandler)
+		protected async Task<IActionResult> Find(int id, Func<T, Task<IActionResult>> responseHandler)
 		{
 			var response = await _repository.Get(id);
 			if (response == null)
