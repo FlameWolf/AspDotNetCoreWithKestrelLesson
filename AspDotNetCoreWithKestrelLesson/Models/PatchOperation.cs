@@ -10,21 +10,26 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 {
 	public partial record PatchOperation<TRequest>
 	{
+		private JObject Initialiser
+		{
+			init
+			{
+				Path = value.Properties().FirstOrDefault().Name;
+				Value = value.Properties().FirstOrDefault().Value.ToString();
+			}
+		}
+
 		public PatchOperation() : this("test", string.Empty, string.Empty, string.Empty)
 		{
-			var requestAsJObject = GetInstanceAsJObject<TRequest>();
-			Path = requestAsJObject.Properties().FirstOrDefault().Name;
-			Value = requestAsJObject.Properties().FirstOrDefault().Value.ToString();
+			Initialiser = GetInstanceAsJObject<TRequest>();
 		}
 
 		public PatchOperation(TRequest request) : this()
 		{
-			var requestAsJObject = ConvertToJObject(request);
-			Path = requestAsJObject.Properties().FirstOrDefault().Name;
-			Value = requestAsJObject.Properties().FirstOrDefault().Value.ToString();
+			Initialiser = ConvertToJObject(request);
 		}
 
-		private static JObject ConvertToJObject(object source)
+		private static JObject ConvertToJObject(dynamic source)
 		{
 			return JObject.FromObject
 			(

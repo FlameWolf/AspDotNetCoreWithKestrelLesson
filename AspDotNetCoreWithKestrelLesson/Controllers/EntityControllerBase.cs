@@ -30,9 +30,9 @@ namespace AspDotNetCoreWithKestrelLesson.Controllers
 			.AttributeRouteInfo?.Template;
 		}
 
-		protected PropertyType GetPropertyValue<PropertyType>(string propertyName, object source)
+		protected PropertyType GetPropertyValue<PropertyType>(string propertyName, T source)
 		{
-			return (PropertyType)source.GetType().GetProperty(propertyName).GetValue(source);
+			return (PropertyType)typeof(T).GetProperty(propertyName).GetValue(source);
 		}
 
 		protected async Task<IActionResult> Find(int id, Func<T, Task<IActionResult>> responseHandler)
