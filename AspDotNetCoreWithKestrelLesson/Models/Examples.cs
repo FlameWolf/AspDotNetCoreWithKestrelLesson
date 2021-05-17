@@ -11,8 +11,8 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 	{
 		public T GetExamples()
 		{
-			var generateExampleAttribute = typeof(T).GetCustomAttribute<GenerateExampleAttribute>();
 			T instance = (T)RuntimeHelpers.GetUninitializedObject(typeof(T));
+			var generateExampleAttribute = typeof(T).GetCustomAttribute<GenerateExampleAttribute>();
 			if (generateExampleAttribute?.Values.Length > 0)
 			{
 				if (generateExampleAttribute.Properties.Length == 0)
