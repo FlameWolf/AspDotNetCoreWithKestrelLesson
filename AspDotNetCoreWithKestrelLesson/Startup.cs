@@ -57,7 +57,6 @@ namespace AspDotNetCoreWithKestrelLesson
 			});
 			services.AddSingleton(typeof(RecyclableMemoryStreamManager));
 			services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepositoryBase<>));
-			services.AddTransient(typeof(IExamplesProvider<>), typeof(PatchRequestExample<>));
 			services.TryAddEnumerable
 			(
 				ServiceDescriptor.Transient<IApplicationModelProvider, EntityControllerModelProvider>()
