@@ -10,23 +10,15 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 {
 	public partial record PatchOperation<TRequest>
 	{
-		private JObject Initialiser
+		private PatchOperation() : this("test", string.Empty, string.Empty, null)
 		{
-			init
-			{
-				Path = value.Properties().FirstOrDefault().Name;
-				Value = value.Properties().FirstOrDefault().Value.ToString();
-			}
-		}
-
-		public PatchOperation() : this("test", string.Empty, string.Empty, string.Empty)
-		{
-			Initialiser = GetInstanceAsJObject<TRequest>();
 		}
 
 		public PatchOperation(TRequest request) : this()
 		{
-			Initialiser = ConvertToJObject(request);
+			var requestAsJObject = ConvertToJObject(request);
+			Path = requestAsJObject.Properties().FirstOrDefault().Name;
+			Value = requestAsJObject.Properties().FirstOrDefault().Value;
 		}
 
 		private static JObject ConvertToJObject(object source)
@@ -38,30 +30,6 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 				{
 					ContractResolver = new CamelCasePropertyNamesContractResolver()
 				}
-			);
-		}
-
-		private static JObject GetInstanceAsJObject<TSource>()
-		{
-			var constructor = typeof(TSource)
-				.GetConstructors
-				(
-					BindingFlags.Public | BindingFlags.Instance
-				)
-				.FirstOrDefault();
-			var parameters = constructor?.GetParameters();
-			return ConvertToJObject
-			(
-				constructor?.Invoke
-				(
-					parameters?.Select
-					(
-						x => x.HasDefaultValue ?
-							x.DefaultValue :
-							x.ParameterType.GetDefaultValue()
-					)
-					.ToArray()
-				)
 			);
 		}
 	}
