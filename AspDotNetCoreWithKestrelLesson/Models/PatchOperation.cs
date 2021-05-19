@@ -29,7 +29,7 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 			Initialiser = ConvertToJObject(request);
 		}
 
-		private static JObject ConvertToJObject(dynamic source)
+		private static JObject ConvertToJObject(object source)
 		{
 			return JObject.FromObject
 			(

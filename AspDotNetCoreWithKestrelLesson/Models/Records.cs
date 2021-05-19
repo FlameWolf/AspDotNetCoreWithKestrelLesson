@@ -47,6 +47,6 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 		string Op,
 		string From,
 		string Path,
-		string Value
+		object Value
 	);
 }
