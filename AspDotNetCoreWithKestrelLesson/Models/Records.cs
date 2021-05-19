@@ -45,8 +45,8 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 	public partial record PatchOperation<TRequest>
 	(
 		string Op,
-		string From,
 		string Path,
+		string From,
 		object Value
 	);
 }
