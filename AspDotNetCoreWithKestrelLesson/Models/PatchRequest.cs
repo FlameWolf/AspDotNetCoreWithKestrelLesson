@@ -5,33 +5,8 @@ using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
-	public class PatchRequest<T> : ICollection<PatchOperation<T>>
+	public class PatchRequest<T> : List<PatchOperation<T>>
 	{
-		private readonly List<PatchOperation<T>> _requests;
-
-		public PatchRequest()
-		{
-			_requests = new();
-		}
-
-		public int Count => _requests.Count;
-
-		public bool IsReadOnly => false;
-
-		public void Add(PatchOperation<T> item) => _requests.Add(item);
-
-		public void Clear() => _requests.Clear();
-
-		public bool Contains(PatchOperation<T> item) => _requests.Contains(item);
-
-		public void CopyTo(PatchOperation<T>[] array, int arrayIndex) => _requests.CopyTo(array, arrayIndex);
-
-		public bool Remove(PatchOperation<T> item) => _requests.Remove(item);
-
-		public IEnumerator<PatchOperation<T>> GetEnumerator() => _requests.GetEnumerator();
-
-		IEnumerator IEnumerable.GetEnumerator() => _requests.GetEnumerator();
-
 		public static implicit operator JsonPatchDocument(PatchRequest<T> requests)
 		{
 			var patchDocument = new JsonPatchDocument();
