@@ -5,7 +5,6 @@ using AspDotNetCoreWithKestrelLesson.Conventions;
 using AspDotNetCoreWithKestrelLesson.Database;
 using AspDotNetCoreWithKestrelLesson.Filters;
 using AspDotNetCoreWithKestrelLesson.Middleware;
-using AspDotNetCoreWithKestrelLesson.Models;
 using AspDotNetCoreWithKestrelLesson.Providers;
 using AspDotNetCoreWithKestrelLesson.Repositories;
 using Microsoft.AspNetCore.Builder;

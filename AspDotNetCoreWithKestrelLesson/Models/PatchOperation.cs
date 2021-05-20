@@ -1,20 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using AspDotNetCoreWithKestrelLesson.Extensions;
+﻿using System.Linq;
+using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 namespace AspDotNetCoreWithKestrelLesson.Models
 {
-	public partial record PatchOperation<TRequest>
+	public partial record PatchOperation<T>
 	{
-		private PatchOperation() : this("test", string.Empty, string.Empty, null)
-		{
-		}
+		private PatchOperation() : this("test", string.Empty, string.Empty, null) => Expression.Empty();
 
-		public PatchOperation(TRequest request) : this()
+		public PatchOperation(T request) : this()
 		{
 			var requestAsJObject = ConvertToJObject(request);
 			Path = requestAsJObject.Properties().FirstOrDefault().Name;
