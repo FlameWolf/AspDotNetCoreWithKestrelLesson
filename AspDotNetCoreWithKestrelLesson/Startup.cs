@@ -47,6 +47,15 @@ namespace AspDotNetCoreWithKestrelLesson
 				.First();
 		}
 
+		private RecyclableMemoryStreamManager CreateRecyclableMemoryStreamManager(int blockSize)
+		{
+			var largeBufferMultiple = (blockSize * blockSize);
+			var maxBufferSize = (16 * largeBufferMultiple);
+			var maxFreeSmallPoolBytes = (128 * blockSize);
+			var maxFreeLargePoolBytes = (maxBufferSize * 4);
+			return new RecyclableMemoryStreamManager(maxFreeSmallPoolBytes, maxFreeLargePoolBytes);
+		}
+
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -54,7 +63,7 @@ namespace AspDotNetCoreWithKestrelLesson
 			{
 				context.UseInMemoryDatabase(nameof(ApplicationDbContext));
 			});
-			services.AddSingleton(typeof(RecyclableMemoryStreamManager));
+			services.AddSingleton(typeof(RecyclableMemoryStreamManager), CreateRecyclableMemoryStreamManager(1024));
 			services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepositoryBase<>));
 			services.TryAddEnumerable
 			(
