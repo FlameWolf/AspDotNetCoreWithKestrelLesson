@@ -9,6 +9,7 @@ namespace AspDotNetCoreWithKestrelLesson.Database
 		public DbSet<User> Users { set; get; }
 		public DbSet<Post> Posts { set; get; }
 		public DbSet<Comment> Comments { set; get; }
+		public DbSet<LogEntry> LogEntries { set; get; }
 
 		public ApplicationDbContext([NotNull] DbContextOptions options) : base(options)
 		{
@@ -32,6 +33,7 @@ namespace AspDotNetCoreWithKestrelLesson.Database
 			modelBuilder.Entity<Comment>().Property(comment => comment.PostId).IsRequired(true);
 			modelBuilder.Entity<Comment>().Property(comment => comment.UserId).IsRequired(true);
 			modelBuilder.Entity<Comment>().Property(comment => comment.Content).IsRequired(true);
+			modelBuilder.Entity<LogEntry>().Property(logEntry => logEntry.Id).ValueGeneratedOnAdd();
 			// Configure relationships.
 			modelBuilder.Entity<User>().HasMany(user => user.Posts).WithOne();
 			modelBuilder.Entity<User>().HasMany(user => user.Comments).WithOne();

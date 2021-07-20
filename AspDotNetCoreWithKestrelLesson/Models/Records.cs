@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AspDotNetCoreWithKestrelLesson.Attributes;
 using Newtonsoft.Json;
 
@@ -49,4 +50,19 @@ namespace AspDotNetCoreWithKestrelLesson.Models
 		string From,
 		object Value
 	);
+
+	public record LogEntry
+	{
+		public int Id { set; get; }
+		public string Scheme { set; get; }
+		public string Host { set; get; }
+		public string User { set; get; }
+		public string Claims { set; get; }
+		public string Path { set; get; }
+		public string QueryString { set; get; }
+		public string Request { set; get; }
+		public string Response { set; get; }
+		public DateTime StartedAt { set; get; }
+		public DateTime EndedAt { set; get; }
+	}
 }
