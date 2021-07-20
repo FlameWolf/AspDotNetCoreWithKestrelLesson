@@ -22,6 +22,7 @@ namespace AspDotNetCoreWithKestrelLesson.Database
 			modelBuilder.Entity<User>().HasKey(user => user.Id);
 			modelBuilder.Entity<Post>().HasKey(post => post.Id);
 			modelBuilder.Entity<Comment>().HasKey(comment => comment.Id);
+			modelBuilder.Entity<LogEntry>().HasKey(logEntry => logEntry.Id);
 			// Configure data constraints.
 			modelBuilder.Entity<User>().Property(user => user.Id).ValueGeneratedNever();
 			modelBuilder.Entity<User>().Property(user => user.Handle).IsRequired(true);
