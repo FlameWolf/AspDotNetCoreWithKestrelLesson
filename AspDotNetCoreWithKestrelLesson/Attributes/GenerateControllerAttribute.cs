@@ -1,19 +1,16 @@
-﻿using System;
+﻿namespace AspDotNetCoreWithKestrelLesson.Attributes;
 
-namespace AspDotNetCoreWithKestrelLesson.Attributes
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public class GenerateControllerAttribute : Attribute
 {
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	public class GenerateControllerAttribute : Attribute
+	public string Route { set; get; }
+
+	public GenerateControllerAttribute()
 	{
-		public string Route { set; get; }
+	}
 
-		public GenerateControllerAttribute()
-		{
-		}
-
-		public GenerateControllerAttribute(string route)
-		{
-			Route = route;
-		}
+	public GenerateControllerAttribute(string route)
+	{
+		Route = route;
 	}
 }

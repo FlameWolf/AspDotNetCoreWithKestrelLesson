@@ -1,36 +1,30 @@
-﻿using System.Linq;
-using AspDotNetCoreWithKestrelLesson.Controllers;
-using AspDotNetCoreWithKestrelLesson.Extensions;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+﻿namespace AspDotNetCoreWithKestrelLesson.Providers;
 
-namespace AspDotNetCoreWithKestrelLesson.Providers
+public class EntityControllerModelProvider : IApplicationModelProvider
 {
-	public class EntityControllerModelProvider : IApplicationModelProvider
+	public int Order => -991;
+
+	public void OnProvidersExecuting(ApplicationModelProviderContext context)
 	{
-		public int Order => -991;
+		context
+			.Result
+			.Controllers
+			.Where
+			(
+				x => x.ControllerType.IsGenericType &&
+					(
+						x.ControllerType.GetGenericTypeDefinition() ==
+						typeof(EntityControllerBase<>)
+					)
+			)
+			.ForEach
+			(
+				x =>
+				x.ControllerName = x.ControllerType.GenericTypeArguments.First().Name
+			);
+	}
 
-		public void OnProvidersExecuting(ApplicationModelProviderContext context)
-		{
-			context
-				.Result
-				.Controllers
-				.Where
-				(
-					x => x.ControllerType.IsGenericType &&
-						(
-							x.ControllerType.GetGenericTypeDefinition() ==
-							typeof(EntityControllerBase<>)
-						)
-				)
-				.ForEach
-				(
-					x =>
-					x.ControllerName = x.ControllerType.GenericTypeArguments.First().Name
-				);
-		}
-
-		public void OnProvidersExecuted(ApplicationModelProviderContext context)
-		{
-		}
+	public void OnProvidersExecuted(ApplicationModelProviderContext context)
+	{
 	}
 }

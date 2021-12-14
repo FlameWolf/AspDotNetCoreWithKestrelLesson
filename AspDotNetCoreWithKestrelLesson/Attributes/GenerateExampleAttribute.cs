@@ -1,22 +1,19 @@
-﻿using System;
+﻿namespace AspDotNetCoreWithKestrelLesson.Attributes;
 
-namespace AspDotNetCoreWithKestrelLesson.Attributes
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public class GenerateExampleAttribute : Attribute
 {
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	public class GenerateExampleAttribute : Attribute
+	public string[] Properties { set; get; }
+	public object[] Values { init; get; }
+
+	public GenerateExampleAttribute()
 	{
-		public string[] Properties { set; get; }
-		public object[] Values { init; get; }
+		Properties = Array.Empty<string>();
+		Values = Array.Empty<object>();
+	}
 
-		public GenerateExampleAttribute()
-		{
-			Properties = Array.Empty<string>();
-			Values = Array.Empty<object>();
-		}
-
-		public GenerateExampleAttribute(params object[] values) : this()
-		{
-			Values = values;
-		}
+	public GenerateExampleAttribute(params object[] values) : this()
+	{
+		Values = values;
 	}
 }

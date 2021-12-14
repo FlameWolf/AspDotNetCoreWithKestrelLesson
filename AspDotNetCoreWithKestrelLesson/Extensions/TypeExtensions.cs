@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿namespace AspDotNetCoreWithKestrelLesson.Extensions;
 
-namespace AspDotNetCoreWithKestrelLesson.Extensions
+public static class TypeExtensions
 {
-	public static class TypeExtensions
-	{
-		private static readonly ConcurrentDictionary<Type, object> typeDefaults = new();
+	private static readonly ConcurrentDictionary<Type, object> typeDefaults = new();
 
-		public static object GetDefaultValue(this Type type) =>
-			type.IsValueType ?
-			typeDefaults.GetOrAdd(type, Activator.CreateInstance) :
-			type.GetConstructor(Type.EmptyTypes)?.Invoke(Array.Empty<object>());
-	}
+	public static object GetDefaultValue(this Type type) =>
+		type.IsValueType ?
+		typeDefaults.GetOrAdd(type, Activator.CreateInstance) :
+		type.GetConstructor(Type.EmptyTypes)?.Invoke(Array.Empty<object>());
 }

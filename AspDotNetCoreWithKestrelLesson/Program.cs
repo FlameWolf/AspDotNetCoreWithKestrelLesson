@@ -1,9 +1,3 @@
-using AspDotNetCoreWithKestrelLesson;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 IHostBuilder CreateHostBuilder(string[] args)
 {
 	return Host
