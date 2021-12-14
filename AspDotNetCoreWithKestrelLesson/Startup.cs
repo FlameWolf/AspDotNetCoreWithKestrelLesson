@@ -46,9 +46,9 @@ public class Startup
 		(
 			ServiceDescriptor.Transient<IApplicationModelProvider, EntityControllerModelProvider>()
 		);
-		services.AddCors(options =>
+		services.AddCors(config =>
 		{
-			options.AddDefaultPolicy
+			config.AddDefaultPolicy
 			(
 				builder =>
 				{
