@@ -10,7 +10,6 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1"/>
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0"/>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-		<PackageReference Include="ServiceProviderExtensions" Version="1.0.0"/>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.2"/>
 	</ItemGroup>
